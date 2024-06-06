@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  max-width: 1600px;
+  width: 100%;
+  margin: auto;
+}
+.heading {
+  font-size: 3rem;
+  margin: 40px 0;
+  text-align: center;
+}
+.summary-dashboard {
+  margin: 20px 0;
+}
+.summary-dashboard .summary-dashboard-item {
+  text-align: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: #fff;
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  padding: 15px 10px;
+  align-items: center;
+  border-radius: 5px;
+  gap: 10px;
+  border-bottom: 10px solid;
+  flex-direction: column;
+  min-height: 150px;
+}
+.dashboard-filters {
+  justify-content: space-between;
+  gap: 20px;
+}
+.dashboard-filters > div {
+  width: 100%;
+  padding: 14px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.dashboard-filters > div .label {
+  color: #2c3e50;
+  text-transform: capitalize;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+  accent-color: #1abc9c;
+}
+.dashboard-filters > div > div:nth-child(1) {
+  margin: 0;
+  margin-bottom: 15px;
+}
+.dashboard-filters > div > div {
+  margin: 10px;
+}
+.dashboard-filters > div > div label {
+  margin: 0 10px;
+}
+
+.dashboard-filters > div input {
+  scale: 1.3;
+}
+.summary-dashboard .summary-dashboard-item .record {
+  width: 100%;
+}
+
+.summary-dashboard .summary-dashboard-item .record div {
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 7px 0;
+}
+
+
+.summary-dashboard .summary-dashboard-item:nth-child(1) {
+  border-color: #1abc9c;
+}
+.summary-dashboard .summary-dashboard-item:nth-child(2) {
+  border-color: #f9ca24;
+}
+.summary-dashboard .summary-dashboard-item:nth-child(3) {
+  border-color: #3498db;
+}
+.summary-dashboard .summary-dashboard-item:nth-child(4) {
+  border-color: #ff7979;
+}
+.summary-dashboard .summary-dashboard-item:nth-child(5) {
+  border-color: #4834d4;
+}
+.summary-dashboard .summary-dashboard-item:nth-child(6) {
+  border-color: #e84393;
+}
+
+input[type="checkbox"]:checked{
+    width: 15px;
+    background: #333;
+    transition: width 150ms ease 100ms;
+}
+.transaction-table.transaction-table-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 15px;
+  color: white;
+  background-color: #95a5a6;
+}
+.transaction-table {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 11% 11% 11% 11% 11% 11% 11% 11% 11%;
+  margin: 12px 0;
+  padding: 7px;
+}
+
+.data_table > div:last-child div {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.title{
+color: #2c3e50;
+font-weight: 600 !important;
+}
+
+.data_table {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.data_table .table_heading {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.top_box {
+  gap: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-dashboard-item span {
+  font-weight: 500 !important;
+  margin-right: 10px;
+}

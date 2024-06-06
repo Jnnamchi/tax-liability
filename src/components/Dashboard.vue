@@ -15,7 +15,7 @@
                 <div class="title">Transactions By State</div>
                 <div class="record">
                     <div v-for="(transactionsState, state) in filteredSummaryData.transactionsByState" :key="state">
-                        <span> {{ state }} : </span> {{ transactionsState }}
+                        <span> {{ state }} </span> {{ transactionsState }}
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="title">Tax Liability By State</div>
                 <div class="record">
                     <div v-for="(taxLiability, state) in filteredSummaryData.totalTaxLiabilityByState" :key="state">
-                        <span> {{ state }} : </span> ${{ taxLiability.toFixed(2) }}
+                        <span> {{ state }} </span> ${{ taxLiability.toFixed(2) }}
                     </div>
                 </div>
             </div>
@@ -94,9 +94,9 @@
     <div v-for="transaction of transactions">
         <div v-if="passesTransactionLevelFilter(transaction)">
             <div class="data_table">
-                <div style="display: flex" class="table_heading">
+                <div style="display: flex; justify-content: space-between;" class="table_heading">
                     <div style="margin-right: 10px">
-                        {{ transaction.type }}: {{ transaction.address.country }},
+                        {{ transaction.type }}
                     </div>
                     <div style="margin-right: 10px">
                         {{ transaction.address.street }}, {{ transaction.address.city }},
@@ -116,36 +116,38 @@
                     <div>Tax Rate</div>
                     <div>Tax Liability</div>
                 </div>
-                <div v-for="item of transaction.line_items">
-                    <div class="transaction-table" style="border: 1px solid #bdc3c7" v-if="passesItemLevelFilter(item)">
-                        <div>
-                            {{ item.name }}
-                        </div>
-                        <div>
-                            {{ item.price }}
-                        </div>
-                        <div>
-                            {{ item.quantity }}
-                        </div>
-                        <div>
-                            {{ item.currency }}
-                        </div>
-                        <div>
-                            {{ item.discount }}
-                        </div>
-                        <div>
-                            {{ item.discount_type }}
-                        </div>
-                        <div>
-                            {{ item.finalPrice }}
-                        </div>
-                        <div>
-                            {{ item.isTaxed ? `${item.taxRate}%` : "N/A" }}
-                        </div>
-                        <div>
-                            {{ item.taxAmount }}
-                        </div>
+                <div>
+                  <div v-for="item of transaction.line_items" class="table-nth">
+                    <div class="transaction-table" v-if="passesItemLevelFilter(item)">
+                      <div>
+                        {{ item.name }}
+                      </div>
+                      <div>
+                        {{ item.price }}
+                      </div>
+                      <div>
+                        {{ item.quantity }}
+                      </div>
+                      <div>
+                        {{ item.currency }}
+                      </div>
+                      <div>
+                        {{ item.discount ? item.discount : 'N/A' }}
+                      </div>
+                      <div>
+                        {{ item.discount_type ? item.discount_type : 'N/A' }}
+                      </div>
+                      <div>
+                        {{ item.finalPrice }}
+                      </div>
+                      <div>
+                        {{ item.isTaxed ? `${item.taxRate}%` : 'N/A' }}
+                      </div>
+                      <div>
+                        {{ item.taxAmount }}
+                      </div>
                     </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -155,6 +157,7 @@
 
 <script>
 import axios from "axios";
+import { transactionsResponseJSON } from '../data/transaction'
 export default {
     name: "Dashboard",
     mounted() {
@@ -321,21 +324,22 @@ export default {
             this.addTaxAmountToSummaryData(state, lineItem.taxAmount);
         },
         async getTransactions() {
-            const url = "https://server.getsphere.com/tax_api/test_transactions";
-            const response = await axios.get(url, {
-                headers: {
-                    Authorization: "Bearer rX8HOSkFCXR0Jy6DwA7Y9iSJL3a7gP65m2eazcW75AE7XGKS3LlqVXlFocloUgKc",
-                },
-            });
-            const transactions = response.data.transactions;
-            const taxAuthorities = response.data.tax_authority;
+            // Removed network request so we can deploy this as a github page
+            // const url = "https://server.getsphere.com/tax_api/test_transactions";
+            // const response = await axios.get(url, {
+            //     headers: {
+            //         Authorization: "Bearer <bearer>",
+            //     },
+            // });
+            const transactions = transactionsResponseJSON.transactions;
+            const taxAuthorities = transactionsResponseJSON.tax_authority;
 
             const taxMapping = {};
             for (const taxAuthority of taxAuthorities) {
-                if (taxAuthority.name in this.codeToStatemapping) {
-                    const state = this.codeToStatemapping[taxAuthority.name];
-                    taxMapping[state] = taxAuthority;
-                }
+              if (taxAuthority.name in this.codeToStatemapping) {
+                const state = this.codeToStatemapping[taxAuthority.name];
+                taxMapping[state] = taxAuthority;
+              }
             }
 
             this.resetAllData();

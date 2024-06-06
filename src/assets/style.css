@@ -13,7 +13,7 @@ body {
 
 .container {
   max-width: 1600px;
-  width: 100%;
+  width: 80%;
   margin: auto;
 }
 .heading {
@@ -29,7 +29,6 @@ body {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #fff;
   width: 100%;
-  margin: 10px;
   display: flex;
   padding: 15px 10px;
   align-items: center;
@@ -86,7 +85,6 @@ input[type="checkbox"] {
   margin: 7px 0;
 }
 
-
 .summary-dashboard .summary-dashboard-item:nth-child(1) {
   border-color: #1abc9c;
 }
@@ -111,25 +109,30 @@ input[type="checkbox"]:checked{
     background: #333;
     transition: width 150ms ease 100ms;
 }
-.transaction-table.transaction-table-header {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
+.transaction-table-header {
   font-size: 15px;
-  color: white;
-  background-color: #95a5a6;
+  color: #2c3e50;
+  font-weight: bold;
 }
+
 .transaction-table {
   width: 100%;
   display: grid;
   grid-template-columns: 11% 11% 11% 11% 11% 11% 11% 11% 11%;
-  margin: 12px 0;
+  /* margin: 12px 0; */
   padding: 7px;
 }
 
-.data_table > div:last-child div {
+.table-nth:nth-child(odd) {
+  background-color: #e0e5ec;
+}
+
+.table-nth:last-child {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
 .title{
 color: #2c3e50;
 font-weight: 600 !important;
@@ -137,16 +140,21 @@ font-weight: 600 !important;
 
 .data_table {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding: 15px;
+  /* padding: 15px; */
+  border-radius: 10px;
   margin: 20px 0;
 }
 
 .data_table .table_heading {
-  color: #2c3e50;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: white;
+  background-color: #95a5a6;
   margin-bottom: 15px;
   font-size: 18px;
   text-transform: capitalize;
   font-weight: 500;
+  padding: 15px 0 15px 15px;
 }
 
 .top_box {

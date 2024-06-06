@@ -91,7 +91,7 @@
             <div>Discount</div>
             <div>Discount Type</div>
             <div>Final Price</div>
-            <div>Is Taxed</div>
+            <div>Tax Rate</div>
             <div>Tax Liability</div>
           </div>
         <div v-for="item of transaction.line_items">
@@ -118,7 +118,7 @@
               {{item.finalPrice}}
             </div>
             <div>
-              {{item.isTaxed}}
+              {{ item.isTaxed ? `${item.taxRate}%` : 'N/A' }}
             </div>
             <div>
               {{item.taxAmount}}
@@ -231,6 +231,22 @@
           this.filtersBase.transactionType.push(transactionType)
         }
       },
+      enrichLineItemWithTaxInfo(state, taxMapping, lineItem) {
+        const isTaxed = taxMapping[state].taxable_items.includes(lineItem.name)
+        const totalPrice = lineItem.price * lineItem.quantity
+        let discountAmount = 0
+        if (lineItem.discount) {
+          discountAmount = lineItem.discount_type == 'percentage' ? totalPrice*(lineItem.discount/100) : lineItem.discount
+        }
+        const finalPrice = totalPrice - discountAmount
+        this.addRevenueToSummaryData(finalPrice)
+        // Set new values
+        lineItem.finalPrice = finalPrice
+        lineItem.isTaxed = isTaxed
+        lineItem.taxRate = taxMapping[state].rate
+        lineItem.taxAmount = isTaxed ? finalPrice*taxMapping[state].rate/100 : 0;
+        this.addTaxAmountToSummaryData(state, lineItem.taxAmount)
+      },
       async getTransactions () {
         const url = 'https://server.getsphere.com/tax_api/test_transactions'
         const response = await axios.get(url, { 'headers': { 'Authorization': 'Bearer rX8HOSkFCXR0Jy6DwA7Y9iSJL3a7gP65m2eazcW75AE7XGKS3LlqVXlFocloUgKc' } })
@@ -252,19 +268,7 @@
           this.addTransactionTypeToFilters(transaction.type)
           this.addTransactionToSummaryData(transaction)
           for (const lineItem of transaction.line_items) {
-            const isTaxed = taxMapping[state].taxable_items.includes(lineItem.name)
-            const totalPrice = lineItem.price * lineItem.quantity
-            let discountAmount = 0
-            if (lineItem.discount) {
-              discountAmount = lineItem.discount_type == 'percentage' ? totalPrice*(lineItem.discount/100) : lineItem.discount
-            }
-            const finalPrice = totalPrice - discountAmount
-            this.addRevenueToSummaryData(finalPrice)
-            // Set new values
-            lineItem.finalPrice = finalPrice
-            lineItem.isTaxed = isTaxed
-            lineItem.taxAmount = isTaxed ? finalPrice*taxMapping[state].rate/100 : 0;
-            this.addTaxAmountToSummaryData(state, lineItem.taxAmount)
+            this.enrichLineItemWithTaxInfo(state, taxMapping, lineItem)
           }
           this.transactions.push(transaction)
         }

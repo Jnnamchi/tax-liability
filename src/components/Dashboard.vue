@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      Data Goes Here
+    <div style="width: fit-content; margin: 50px auto; font-size: 55px;">
+      Tax Liability Dashboard
     </div>
     <div class="summary-dashboard">
       <div style="display: flex; justify-content: space-around;">
